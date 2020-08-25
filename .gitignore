@@ -24,3 +24,7 @@ public/uploads
 *.njsproj
 *.sln
 *.sw*
+
+#logs file
+combined.log
+error.log

@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const config = require('./app/config');
+const logger = require('./app/services/logger');
 
 global.__base = __dirname;
 
@@ -27,6 +28,7 @@ mongoose.connect(config.MONGO_DB_URI, {
 }).then(() => {
     console.log('Connected to MongoDB');
 }).catch((err) => {
+    logger.error(err);
     console.log('Error while connecting mongoDB ' + err);
 })
 

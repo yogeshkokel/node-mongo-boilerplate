@@ -3,12 +3,14 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const config = require('../config');
+const logger = require('../services/logger');
 
 const User = require('../models/users');
 
 module.exports.addUser = function (req, res) {
     bcrypt.hash(req.body.password, 10, function (err, hash) {
         if (err) {
+            logger.error(err);
             res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ status: false, message: err.message, error: err })
         } else {
             const UserObject = new User({
@@ -18,6 +20,7 @@ module.exports.addUser = function (req, res) {
             })
             UserObject.save((error, result) => {
                 if (error) {
+                    logger.error(error);
                     res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ status: false, message: error.message, error: error })
                 } else {
                     res.status(httpStatus.CREATED).json({ status: true, message: "User Added Successfully", error: null, result })
@@ -30,15 +33,19 @@ module.exports.addUser = function (req, res) {
 module.exports.login = function (req, res) {
     User.find({ email: req.body.email }, function (err, users) {
         if (err) {
+            logger.error(err);
             res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ status: false, message: error.message, error: err })
         } else if (users.length == 0) {
-            res.status(httpStatus.NOT_FOUND).json({ status: true, message: "User not found", error: null })
+            logger.info('User not found');
+            res.status(httpStatus.NOT_FOUND).json({ status: false, message: "User not found", error: null })
         } else {
             bcrypt.compare(req.body.password, users[0].password, function (err, result) {
                 if (err) {
+                    logger.error(err);
                     res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ status: false, message: error.message, error: err })
                 } else if (!result) {
-                    res.status(httpStatus.UNAUTHORIZED).json({ status: true, message: "User Authentication Failed", error: null })
+                    logger.info('User Authentication Failed');
+                    res.status(httpStatus.UNAUTHORIZED).json({ status: false, message: "User Authentication Failed", error: null })
                 } else {
                     const token = jwt.sign({
                         username: users[0].username,

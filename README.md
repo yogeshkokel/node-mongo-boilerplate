@@ -29,7 +29,7 @@ Set the config variables:
 ```bash
 cp -R app/configExample app/config
 
-# open .env and modify the environment variables (if needed)
+# open app/config/index.js and modify the variables (if needed)
 ```
 Running locally:
 
