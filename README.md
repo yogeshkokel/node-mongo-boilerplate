@@ -6,7 +6,7 @@ A boilerplate for quickly building RESTful APIs using Node.js, Express, and Mong
 - **NoSQL database**: [MongoDB](https://www.mongodb.com) object data modeling using [Mongoose](https://mongoosejs.com)
 - **Authentication and authorization**: using [JWT](https://www.npmjs.com/package/jsonwebtoken)
 - **CORS**: Cross-Origin Resource-Sharing enabled using [cors](https://github.com/expressjs/cors)
-- **File Upload**: File Upload using [cors](https://www.npmjs.com/package/multer)
+- **File Upload**: File Upload using [multer](https://www.npmjs.com/package/multer)
 
 ## Getting Started
 
